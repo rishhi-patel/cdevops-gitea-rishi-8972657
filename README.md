@@ -1,33 +1,43 @@
 # cdevops-gitea
+
 k8s gitea lab to take dev (sqlite based) to prod (mysql based)
 
-TLDR;
+## Deployment Steps
+
+### 1. Create Kubernetes cluster with k3d
 
 ```bash
-pip install ansible kubernetes
-git submodule update --init --recursive
-ansible-playbook up.yml
+k3d cluster create gitea-cluster
+export KUBECONFIG=$(k3d kubeconfig write gitea-cluster)
 ```
 
-Wait until `kubectl get pod` shows all pods running and:
+### 2. Deploy MySQL
+
+```bash
+kubectl apply -f mysql.yaml
+```
+
+### 3. Deploy Gitea
+
+```bash
+ansible-playbook gitea/up.yml
+```
+
+### 4. Check pod & service status
+
+```bash
+kubectl get pods
+kubectl get svc
+```
+
+### 5. Port-forward Gitea
 
 ```bash
 kubectl port-forward svc/gitea-http 3000:3000
 ```
 
-Now you should be able to access gitea in development mode.
+### 6. Expose with ngrok
 
-The challenge is to run this in production mode.
-
-### Points to Cover
-
-## Marking
-
-|Item|Out Of|
-|--|--:|
-|use [the gitea helm](https://gitea.com/gitea/helm-gitea) to make the repository data persistent|3|
-|make gitea use external database|3|
-|Use [this article](https://blog.techiescamp.com/using-ngrok-with-kubernetes/) to expose your gitea instance publically|2|
-|make the README easy to use and ACCURATE|2|
-|||
-|total|10|
+```bash
+ansible-playbook ngrok/up.yml
+```

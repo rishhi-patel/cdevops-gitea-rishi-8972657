@@ -1,10 +1,56 @@
-version: "3.8"
+---
+- name: Forward port 3000 using Ngrok (for GitHub Codespaces / non-root)
+  hosts: localhost
+  become: false
+  vars:
+    ngrok_token: "2RTNlMSAnb2Vh3taqx4A1XpHg1f_StSbmxiHkYbErmeRf8ki"
+    ngrok_dir: "{{ ansible_env.HOME }}/bin"
+    ngrok_bin: "{{ ngrok_dir }}/ngrok"
 
-services:
-  ngrok:
-    image: wernight/ngrok
-    container_name: ngrok
-    environment:
-      - NGROK_AUTHTOKEN=2RTNlMSAnb2Vh3taqx4A1XpHg1f_StSbmxiHkYbErmeRf8ki
-    command: http host.docker.internal:30000
-    network_mode: host
+  tasks:
+    - name: Ensure ~/bin exists
+      file:
+        path: "{{ ngrok_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Download Ngrok binary
+      get_url:
+        url: https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-stable-linux-amd64.zip
+        dest: /tmp/ngrok.zip
+
+    - name: Unzip Ngrok binary to ~/bin
+      unarchive:
+        src: /tmp/ngrok.zip
+        dest: "{{ ngrok_dir }}"
+        remote_src: yes
+
+    - name: Make Ngrok executable
+      file:
+        path: "{{ ngrok_bin }}"
+        mode: "0755"
+
+    - name: Add Ngrok auth token
+      command: "{{ ngrok_bin }} config add-authtoken {{ ngrok_token }}"
+      register: auth_output
+      changed_when: "'Authtoken saved' in auth_output.stdout or 'already have an authtoken' in auth_output.stdout"
+
+    - name: Start Ngrok tunnel on port 3000
+      async: 3600
+      poll: 0
+      shell: "{{ ngrok_bin }} http 3000 > /tmp/ngrok.log 2>&1 &"
+      environment:
+        NGROK_AUTHTOKEN: "{{ ngrok_token }}"
+
+    - name: Wait for Ngrok API to respond
+      uri:
+        url: http://127.0.0.1:4040/api/tunnels
+        return_content: yes
+      register: ngrok_api
+      retries: 10
+      delay: 2
+      until: ngrok_api.status == 200 and ngrok_api.json.tunnels | length > 0
+
+    - name: Show public URL
+      debug:
+        msg: "Ngrok Public URL: {{ ngrok_api.json.tunnels[0].public_url }}"
