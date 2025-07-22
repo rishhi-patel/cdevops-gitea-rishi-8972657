@@ -4,16 +4,27 @@ k8s gitea lab to take dev (sqlite based) to prod (mysql based)
 
 ## Deployment Steps
 
-### 1. Create Kubernetes cluster with k3d
+
+## Deployment Steps 
+### 1. Set Up Kubernetes Cluster with k3d
 
 ```bash
-pip install ansible kubernetes
-git submodule update --init --recursive
-ansible-playbook up.yml
+# Clean up any previous submodule and cluster because sometime its not initlize correctly in codespaces
+rm -rf k8s
+git submodule deinit -f k8s
 
+# Add the Kubernetes Ansible submodule
+git submodule add https://github.com/rhildred/ansible-k8s.git k8s
+
+# Create a new k3d cluster named 'gitea-cluster'
 k3d cluster create gitea-cluster
+
+# Set KUBECONFIG environment variable for kubectl access
 export KUBECONFIG=$(k3d kubeconfig write gitea-cluster)
 ```
+
+- This will initialize a local Kubernetes cluster using [k3d](https://k3d.io/) and prepare your environment for deploying MySQL and Gitea.
+- Make sure you have [k3d](https://k3d.io/) and [kubectl](https://kubernetes.io/docs/tasks/tools/) installed before running these commands.
 
 ### 2. Deploy MySQL
 
