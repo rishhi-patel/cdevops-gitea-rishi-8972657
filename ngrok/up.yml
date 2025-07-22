@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  ngrok:
+    image: wernight/ngrok
+    container_name: ngrok
+    environment:
+      - NGROK_AUTHTOKEN=2RTNlMSAnb2Vh3taqx4A1XpHg1f_StSbmxiHkYbErmeRf8ki
+    command: http host.docker.internal:30000
+    network_mode: host

@@ -1,0 +1,32 @@
+redis-cluster:
+  enabled: false
+redis:
+  enabled: false
+postgresql:
+  enabled: false
+postgresql-ha:
+  enabled: false
+
+persistence:
+  enabled: true
+  size: 5Gi
+  storageClass: ""
+
+gitea:
+  admin:
+    username: dbadmin
+    password: dbadmin@2k25
+    email: rishi8972657@gmail.com
+  config:
+    database:
+      DB_TYPE: mysql
+      HOST: gitea-mysql:3306
+      NAME: giteadb
+      USER: gitea
+      PASSWD: giteapass
+    session:
+      PROVIDER: memory
+    cache:
+      ADAPTER: memory
+    queue:
+      TYPE: level
