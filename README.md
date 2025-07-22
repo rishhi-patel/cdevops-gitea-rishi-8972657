@@ -9,6 +9,7 @@ k8s gitea lab to take dev (sqlite based) to prod (mysql based)
 ### 1. Set Up Kubernetes Cluster with k3d
 
 ```bash
+pip install ansible kubernetes
 # Clean up any previous submodule and cluster because sometime its not initlize correctly in codespaces
 rm -rf k8s
 git submodule deinit -f k8s
@@ -16,6 +17,7 @@ git submodule deinit -f k8s
 # Add the Kubernetes Ansible submodule
 git submodule add https://github.com/rhildred/ansible-k8s.git k8s
 
+ansible-playbook up.yml
 # Create a new k3d cluster named 'gitea-cluster'
 k3d cluster create gitea-cluster
 
