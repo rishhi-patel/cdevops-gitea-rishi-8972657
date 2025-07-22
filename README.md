@@ -2,8 +2,6 @@
 
 k8s gitea lab to take dev (sqlite based) to prod (mysql based)
 
-## Deployment Steps
-
 
 ## Deployment Steps 
 ### 1. Set Up Kubernetes Cluster with k3d
