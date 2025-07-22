@@ -8,6 +8,7 @@ k8s gitea lab to take dev (sqlite based) to prod (mysql based)
 
 ```bash
 pip install ansible kubernetes
+git submodule update --init --recursive
 ansible-playbook up.yml
 
 k3d cluster create gitea-cluster
