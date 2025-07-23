@@ -51,8 +51,11 @@ kubectl get svc
 kubectl port-forward svc/gitea-http 3000:3000
 ```
 
-### 6. Expose with ngrok
+### 6. Expose with ngrok 
 
 ```bash
 ansible-playbook ngrok/up.yml
+#or
+ngrok http 3000
 ```
+git-tea : https://cf47315699dc.ngrok-free.app
