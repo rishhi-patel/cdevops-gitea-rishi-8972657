@@ -58,4 +58,6 @@ ansible-playbook ngrok/up.yml
 #or
 ngrok http 3000
 ```
-git-tea : https://cf47315699dc.ngrok-free.app
+### ngrok : git-tea : https://cf47315699dc.ngrok-free.app
+### live : https://gitea.exotrend.live
+
