@@ -61,3 +61,6 @@ ngrok http 3000
 ### ngrok : git-tea : https://cf47315699dc.ngrok-free.app
 ### live : https://gitea.exotrend.live
 
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/18991f8d-985c-460e-a68f-2dad7e9810d0" />
+
+
