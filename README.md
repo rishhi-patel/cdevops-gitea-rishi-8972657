@@ -12,6 +12,7 @@ pip install ansible kubernetes
 rm -rf k8s
 git submodule deinit -f k8s
 
+
 # Add the Kubernetes Ansible submodule
 git submodule add https://github.com/rhildred/ansible-k8s.git k8s
 
@@ -53,8 +54,11 @@ kubectl port-forward svc/gitea-http 3000:3000
 
 ### 6. Expose with ngrok 
 
+https://cf47315699dc.ngrok-free.app
+
 ```bash
 ansible-playbook ngrok/up.yml
+<<<<<<< Updated upstream
 #or
 ngrok http 3000
 ```
@@ -67,3 +71,6 @@ ngrok http 3000
 
 
 
+=======
+```
+>>>>>>> Stashed changes
