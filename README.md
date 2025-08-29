@@ -58,7 +58,7 @@ https://cf47315699dc.ngrok-free.app
 
 ```bash
 ansible-playbook ngrok/up.yml
-<<<<<<< Updated upstream
+
 #or
 ngrok http 3000
 ```
