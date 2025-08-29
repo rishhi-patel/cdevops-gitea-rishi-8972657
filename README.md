@@ -71,6 +71,4 @@ ngrok http 3000
 
 
 
-=======
-```
->>>>>>> Stashed changes
+
